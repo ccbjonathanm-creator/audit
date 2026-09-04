@@ -232,11 +232,32 @@ const HYPOTHESES = {
 const OFFRES = {
   clicchantier: {
     nom: 'ClicChantier',
-    type: 'Application prête à l’emploi',
+    /* Le site annonce « Bientôt » et propose de prévenir à l'ouverture : le
+       type doit dire la meme chose, sinon le rapport promet un produit
+       achetable aujourd'hui et le client tombe sur une liste d'attente. */
+    type: 'Application, ouverture prochaine',
     prix: 'dès 19,90 € par mois',
     icone: 'icones/clicchantier.png',
     lien: 'https://generationapp.fr/applications/clicchantier/',
     quoi: 'Le planning, le pointage des heures et le suivi de chantier sur le téléphone de chacun. Deux rôles, patron et employé.'
+  },
+  assistantvocal: {
+    nom: 'L’assistant vocal qui décroche à votre place',
+    type: 'Prestation',
+    prix: 'dès 49 € par mois',
+    icone: null,
+    icone3d: 'telephone',
+    lien: 'https://generationapp.fr/services/assistant-vocal/',
+    quoi: 'Il répond quand vous ne pouvez pas, note la demande et l’adresse, vérifie votre agenda et pose le rendez-vous. Vous recevez la fiche par message.'
+  },
+  fichegoogle: {
+    nom: 'Votre fiche Google Business',
+    type: 'Prestation',
+    prix: '65 € une fois',
+    icone: null,
+    icone3d: 'client',
+    lien: 'https://generationapp.fr/services/fiche-google-business/',
+    quoi: 'La fiche que les gens voient en premier quand ils cherchent votre métier dans votre ville : remplie, photos, horaires, avis.'
   },
   inventaire: {
     nom: 'Inventaire Pro',
@@ -259,6 +280,7 @@ const OFFRES = {
     type: 'Prestation',
     prix: 'sur devis',
     icone: null,
+    icone3d: 'site',
     lien: 'https://generationapp.fr/creation-de-sites/',
     quoi: 'Un site rapide et clair, avec le bouton d’appel toujours visible, pensé pour un artisan et pas pour un concours de design.'
   },
@@ -267,7 +289,11 @@ const OFFRES = {
     type: 'Étude puis abonnement',
     prix: 'à chiffrer ensemble',
     icone: null,
-    lien: null,
+    icone3d: 'surmesure',
+    /* Cette offre n'a pas de page produit, puisqu'elle se chiffre au cas par
+       cas. Elle DOIT quand meme mener quelque part : sans lien, le rapport
+       affichait un bouton mort sur cinq pistes sur huit. */
+    lien: 'https://generationapp.fr/contact/',
     quoi: 'On part de votre façon de travailler et on automatise la tâche précise qui vous coûte le plus cher, avec ou sans intelligence artificielle.'
   }
 };
@@ -323,7 +349,9 @@ const PISTES = [
     titreCourt: 'Ne plus perdre un client parce que vous étiez sous un évier',
     constat: (r, c) => `Vous ratez environ ${Math.round(r.appels * HYPOTHESES.joursOuvres)} appels par mois. En comptant large, ${c.appelsClients} étaient des clients potentiels, et la plupart appellent le concurrent suivant.`,
     solution: 'Un accueil automatique qui répond en votre nom, note la demande, l’adresse et le besoin, puis vous envoie la fiche par message. Vous rappelez le soir en sachant déjà de quoi il s’agit. C’est ici que l’intelligence artificielle sert vraiment.',
-    offres: ['surmesure'],
+    /* Cette piste DÉCRIT l'assistant vocal mot pour mot. Elle doit donc mener
+       a la page de l'assistant vocal, pas a une offre generique. */
+    offres: ['assistantvocal'],
     seuil: (c, r) => r.appels >= 2
   },
   {
@@ -379,7 +407,9 @@ const PISTES = [
       ? 'Vos clients viennent de plateformes qui prennent une commission sur chaque chantier. Vous payez pour des clients qui devraient être les vôtres.'
       : 'Vos clients viennent presque tous du bouche-à-oreille. C’est solide, mais cela ne se pilote pas : les mois creux, vous n’avez aucun levier.',
     solution: 'Le jour où quelqu’un tape votre métier et votre ville dans Google, c’est vous qu’il trouve : une fiche soignée et un site simple qui répond aux questions que les gens se posent vraiment, avec le bouton d’appel toujours sous le pouce. Vos clients viennent à vous, sans commission au passage.',
-    offres: ['site', 'radar'],
+    /* La solution parle d'une « fiche soignée » AVANT le site : l'offre la
+       moins chere et la plus rapide doit donc arriver en premier. */
+    offres: ['fichegoogle', 'site', 'radar'],
     seuil: (c, r) => r.clients === 'bouche' || r.clients === 'platefo'
   }
 ];

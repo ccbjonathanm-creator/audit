@@ -2,7 +2,7 @@
    Cache applicatif simple : l'audit doit s'ouvrir même avec une mauvaise
    connexion sur un chantier. */
 
-const CACHE = 'audit-v3';
+const CACHE = 'audit-v4';
 
 const COQUILLE = [
   './',

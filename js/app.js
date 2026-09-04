@@ -249,8 +249,8 @@ function blocRienAFaire() {
       </div>
       <p class="solution">Aucun de vos postes ne présente de perte de temps assez importante pour justifier un changement d’outil. Nous n’allons donc rien vous vendre sur cette base.</p>
       <p class="solution">Chez une entreprise à ce niveau, les gains suivants ne viennent plus des outils du marché, mais d’une automatisation taillée sur votre façon de travailler précisément : relier entre eux les outils que vous avez déjà, supprimer les doubles saisies qui restent, ou confier à une intelligence artificielle une tâche répétitive qui vous est propre.</p>
-      <a class="offre" href="#" onclick="return false">
-        ${icone3d('surmesure', 46)}
+      <a class="offre" href="${o.lien}" target="_blank" rel="noopener">
+        ${icone3d(o.icone3d || 'surmesure', 46)}
         <span class="txt">
           <span class="n">${o.nom}</span>
           <span class="d">${o.quoi}</span>
@@ -286,7 +286,7 @@ function carteePiste(p, rang, r, c) {
       <p class="solution">${ref.solution}</p>
       ${offres.map((o) => `
         <a class="offre" ${o.lien ? `href="${o.lien}" target="_blank" rel="noopener"` : 'href="#" onclick="return false"'}>
-          ${o.icone ? `<img src="${o.icone}" alt="" width="46" height="46" decoding="async">` : icone3d('surmesure', 46)}
+          ${o.icone ? `<img src="${o.icone}" alt="" width="46" height="46" decoding="async">` : icone3d(o.icone3d || 'surmesure', 46)}
           <span class="txt">
             <span class="n">${o.nom}</span>
             <span class="d">${o.cle === 'surmesure' && ref.promesse ? ref.promesse : o.quoi}</span>
