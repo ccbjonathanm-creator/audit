@@ -2,7 +2,7 @@
    Cache applicatif simple : l'audit doit s'ouvrir même avec une mauvaise
    connexion sur un chantier. */
 
-const CACHE = 'audit-v4';
+const CACHE = 'audit-v5';
 
 const COQUILLE = [
   './',
@@ -13,9 +13,6 @@ const COQUILLE = [
   'js/moteur.js',
   'js/app.js',
   'manifest.webmanifest',
-  'icones/clicchantier.png',
-  'icones/inventaire-pro.png',
-  'icones/radar-google.png',
   'icones/3d/metier.png',
   'icones/3d/equipe.png',
   'icones/3d/euro.png',

@@ -230,58 +230,22 @@ const HYPOTHESES = {
  * ------------------------------------------------------------------ */
 
 const OFFRES = {
-  clicchantier: {
-    nom: 'ClicChantier',
-    /* Le site annonce « Bientôt » et propose de prévenir à l'ouverture : le
-       type doit dire la meme chose, sinon le rapport promet un produit
-       achetable aujourd'hui et le client tombe sur une liste d'attente. */
-    type: 'Application, ouverture prochaine',
-    prix: 'dès 19,90 € par mois',
-    icone: 'icones/clicchantier.png',
-    lien: 'https://generationapp.fr/applications/clicchantier/',
-    quoi: 'Le planning, le pointage des heures et le suivi de chantier sur le téléphone de chacun. Deux rôles, patron et employé.'
-  },
-  assistantvocal: {
-    nom: 'L’assistant vocal qui décroche à votre place',
-    type: 'Prestation',
-    prix: 'dès 49 € par mois',
-    icone: null,
-    icone3d: 'telephone',
-    lien: 'https://generationapp.fr/services/assistant-vocal/',
-    quoi: 'Il répond quand vous ne pouvez pas, note la demande et l’adresse, vérifie votre agenda et pose le rendez-vous. Vous recevez la fiche par message.'
-  },
   fichegoogle: {
     nom: 'Votre fiche Google Business',
     type: 'Prestation',
-    prix: '65 € une fois',
+    prix: '99 € une fois',
     icone: null,
     icone3d: 'client',
     lien: 'https://generationapp.fr/services/fiche-google-business/',
     quoi: 'La fiche que les gens voient en premier quand ils cherchent votre métier dans votre ville : remplie, photos, horaires, avis.'
   },
-  inventaire: {
-    nom: 'Inventaire Pro',
-    type: 'Application prête à l’emploi',
-    prix: '19,90 € une fois',
-    icone: 'icones/inventaire-pro.png',
-    lien: 'https://generationapp.fr/applications/inventaire-pro/',
-    quoi: 'Vous importez votre fichier de pièces, vous comptez à la voix les mains libres, les écarts se calculent tout seuls.'
-  },
-  radar: {
-    nom: 'Radar Google',
-    type: 'Application prête à l’emploi',
-    prix: '10 € une fois',
-    icone: 'icones/radar-google.png',
-    lien: 'https://generationapp.fr/applications/radar-google/',
-    quoi: 'Vous transformez une liste d’entreprises en fiches qualifiées, avec un angle d’appel prêt pour le téléphone.'
-  },
   site: {
     nom: 'Un site internet qui fait appeler',
     type: 'Prestation',
-    prix: 'sur devis',
+    prix: 'dès 299 €',
     icone: null,
     icone3d: 'site',
-    lien: 'https://generationapp.fr/creation-de-sites/',
+    lien: 'https://generationapp.fr/mon-site/',
     quoi: 'Un site rapide et clair, avec le bouton d’appel toujours visible, pensé pour un artisan et pas pour un concours de design.'
   },
   surmesure: {
@@ -349,9 +313,7 @@ const PISTES = [
     titreCourt: 'Ne plus perdre un client parce que vous étiez sous un évier',
     constat: (r, c) => `Vous ratez environ ${Math.round(r.appels * HYPOTHESES.joursOuvres)} appels par mois. En comptant large, ${c.appelsClients} étaient des clients potentiels, et la plupart appellent le concurrent suivant.`,
     solution: 'Un accueil automatique qui répond en votre nom, note la demande, l’adresse et le besoin, puis vous envoie la fiche par message. Vous rappelez le soir en sachant déjà de quoi il s’agit. C’est ici que l’intelligence artificielle sert vraiment.',
-    /* Cette piste DÉCRIT l'assistant vocal mot pour mot. Elle doit donc mener
-       a la page de l'assistant vocal, pas a une offre generique. */
-    offres: ['assistantvocal'],
+    offres: ['surmesure'],
     seuil: (c, r) => r.appels >= 2
   },
   {
@@ -359,6 +321,7 @@ const PISTES = [
        même geste quotidien, et la même réponse. Les séparer ferait passer à côté
        du poste le plus lourd d'une équipe. */
     id: 'chantiers',
+    promesse: 'On met en place votre planning partagé et le pointage des heures par chantier, sur le téléphone de chacun, adaptés à la taille de votre équipe.',
     axe: 'Le pilotage des chantiers',
     icone: 'planning',
     ia: false,
@@ -371,18 +334,19 @@ const PISTES = [
       return org + ', sans compter les appels pour rattraper les malentendus.';
     },
     solution: 'Visualisez votre semaine : le planning est sur le téléphone de chacun, un changement se voit immédiatement par toute l’équipe, et le pointage se range tout seul par chantier. Fini les « tu étais où mardi ? ». Vous voyez enfin, chiffres à l’appui, quels chantiers vous rapportent et lesquels vous coûtent.',
-    offres: ['clicchantier'],
+    offres: ['surmesure'],
     seuil: (c) => c.postes.chantiers >= 2
   },
   {
     id: 'stock',
+    promesse: 'On installe un inventaire à la voix avec un seuil d’alerte par référence, à partir de votre liste de pièces actuelle.',
     axe: 'Le matériel',
     icone: 'stock',
     ia: false,
     titreCourt: 'Moins d’allers-retours au fournisseur',
     constat: (r, c) => `Le matériel manquant vous coûte environ ${fmtH(c.detail.stock)} par mois en allers-retours et en recherches, soit ${fmtEuro(c.detail.stock * c.tauxAdmin)}.`,
     solution: 'Un inventaire qui se compte à la voix, les mains libres, et un seuil d’alerte par référence pour commander avant d’être à sec.',
-    offres: ['inventaire'],
+    offres: ['surmesure'],
     seuil: (c) => c.detail.stock >= 2
   },
   {
@@ -409,7 +373,7 @@ const PISTES = [
     solution: 'Le jour où quelqu’un tape votre métier et votre ville dans Google, c’est vous qu’il trouve : une fiche soignée et un site simple qui répond aux questions que les gens se posent vraiment, avec le bouton d’appel toujours sous le pouce. Vos clients viennent à vous, sans commission au passage.',
     /* La solution parle d'une « fiche soignée » AVANT le site : l'offre la
        moins chere et la plus rapide doit donc arriver en premier. */
-    offres: ['fichegoogle', 'site', 'radar'],
+    offres: ['fichegoogle', 'site'],
     seuil: (c, r) => r.clients === 'bouche' || r.clients === 'platefo'
   }
 ];
